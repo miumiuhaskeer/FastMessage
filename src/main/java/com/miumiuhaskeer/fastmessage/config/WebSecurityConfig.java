@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authentication/**", "/sign-up/**", "/test")
+                .antMatchers("/authentication1/**", "/sign-up/**", "/test")
                 .permitAll()
                 .anyRequest()
                 .authenticated();
@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
-        return new AuthenticationErrorHandler();
+        return new AuthenticationErrorHandler(jsonConverter);
     }
 
     @Bean
