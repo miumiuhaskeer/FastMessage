@@ -9,5 +9,4 @@ class FastMessageApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

@@ -1,14 +1,11 @@
 package com.miumiuhaskeer.fastmessage.service;
 
-import com.miumiuhaskeer.fastmessage.model.User;
+import com.miumiuhaskeer.fastmessage.model.UserDetailsImpl;
+import com.miumiuhaskeer.fastmessage.model.entity.User;
 
 public interface UserService {
-
-    User createUser(String email, String password);
-    void sendConfirmCodeMail(String email);
-
-    boolean isUserExist(long id);
+    void createUser(String email, String password);
+    UserDetailsImpl authenticate(String email, String password);
+    User getById(Long id);
     boolean isUserExist(String email);
-    User getById(long id);
-    User getByEmail(String email);
 }
