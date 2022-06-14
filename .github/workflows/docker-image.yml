@@ -29,18 +29,30 @@ jobs:
 #       run: mvn -B test --file pom.xml
     - name: Run tests with Maven
       run: mvn package
+    - name: Docker meta
+      id: meta
+      uses: crazy-max/ghaction-docker-meta@v2
+      with:
+        images: fast-message
+        tags: |
+          type=raw,value=latest,enable=${{ endsWith(GitHub.ref, ‘master’) }}
+          type=ref,event=tag
+        flavor: |
+          latest=false
     - name: Login to DockerHub
       if: GitHub.event_name != 'pull_request'
       uses: docker/login-action@v1
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-#     - name: Build and push
-#       uses: docker/build-push-action@v2
-#       with:
-#         context: .
-#         push: ${{ GitHub.event_name != 'pull_request' }}
+    - name: Build and push
+      uses: docker/build-push-action@v3.0.0
+      with:
+        context: .
+        push: ${{ GitHub.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
 #     - name: Upload to Docker
 #       run: docker image build -t fast-message .
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag fast-message:$(date +%s)
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag fast-message:$(date +%s)
