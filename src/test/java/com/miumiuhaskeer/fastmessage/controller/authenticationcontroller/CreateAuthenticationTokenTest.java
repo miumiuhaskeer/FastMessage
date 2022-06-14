@@ -1,12 +1,15 @@
 package com.miumiuhaskeer.fastmessage.controller.authenticationcontroller;
 
 import com.miumiuhaskeer.fastmessage.JsonConverter;
+import com.miumiuhaskeer.fastmessage.config.TestPersistenceConfig;
 import com.miumiuhaskeer.fastmessage.model.request.LoginRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
@@ -15,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(TestPersistenceConfig.class)
 public class CreateAuthenticationTokenTest {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.miumiuhaskeer.fastmessage.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -8,6 +9,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.sql.DataSource;
@@ -17,8 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
+@TestConfiguration
 @RequiredArgsConstructor
+@TestPropertySource(locations="classpath:application.properties")
 public class TestPersistenceConfig {
 
     private final ResourcePatternResolver resourcePatternResolver;

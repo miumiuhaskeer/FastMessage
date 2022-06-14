@@ -39,7 +39,10 @@ public class JWTokenFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        doAuthentication(request);
+        if (request.getHeader(HttpHeaders.AUTHORIZATION) != null) {
+            doAuthentication(request);
+        }
+
         filterChain.doFilter(request, response);
     }
 

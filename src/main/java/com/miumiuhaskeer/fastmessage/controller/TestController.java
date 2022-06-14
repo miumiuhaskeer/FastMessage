@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
+    @GetMapping()
+    public String test() {
+        return "Hello World!";
+    }
+
     @GetMapping("/allUsers")
     @Secured({"ROLE_USER"})
     public String testAllUsers() {

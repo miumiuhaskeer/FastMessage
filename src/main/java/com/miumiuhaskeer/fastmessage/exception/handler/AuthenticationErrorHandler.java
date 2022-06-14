@@ -23,7 +23,7 @@ public class AuthenticationErrorHandler implements AuthenticationEntryPoint {
             HttpServletRequest request,
             HttpServletResponse response,
             AuthenticationException authException
-    ) throws IOException, ServletException {
+    ) throws IOException {
         ResponseEntityBuilder.SimpleResponse simpleResponse = new ResponseEntityBuilder.SimpleResponse(
                 HttpStatus.UNAUTHORIZED.value(),
                 ErrorBundle.get("error.authenticationError.message")

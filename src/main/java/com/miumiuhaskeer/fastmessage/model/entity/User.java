@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -22,7 +23,7 @@ public class User {
     @SequenceGenerator(name = "id_gen", sequenceName = "fm_user_id_seq", allocationSize = 1)
     private Long id;
 
-    //@Email
+    @Email
     @Size(max = 50)
     private String email;
 
@@ -45,7 +46,7 @@ public class User {
     }
 
     public User(
-            //@Email
+            @Email
             @Size(max = 50) String email,
             @Password String password
     ) {
