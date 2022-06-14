@@ -35,12 +35,12 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      with:
-        context: .
-        push: ${{ GitHub.event_name != 'pull_request' }}
+#     - name: Build and push
+#       uses: docker/build-push-action@v2
+#       with:
+#         context: .
+#         push: ${{ GitHub.event_name != 'pull_request' }}
 #     - name: Upload to Docker
 #       run: docker image build -t fast-message .
-#     - name: Build the Docker image
-#       run: docker build . --file Dockerfile --tag fast-message:$(date +%s)
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag fast-message:$(date +%s)
