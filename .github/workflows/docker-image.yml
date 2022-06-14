@@ -35,7 +35,7 @@ jobs:
       with:
         images: fast-message
         tags: |
-          type=raw,value=latest,enable=${{ endsWith(GitHub.ref, ‘master’) }}
+          type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
           type=ref,event=tag
         flavor: |
           latest=false
