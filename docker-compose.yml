@@ -15,9 +15,6 @@ services:
       dockerfile: ./docker/fastmessage/Dockerfile
     ports:
       - "6968:8080"
-#    networks:
-#      fastmessagenet:
-#        ipv4_address: 69.69.0.5
     depends_on:
       - fast-message-db
     environment:
@@ -30,17 +27,7 @@ services:
     container_name: fast-message-db
     ports:
       - "5432:5432"
-#    networks:
-#      fastmessagenet:
-#        ipv4_address: 69.69.0.6
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=fastmessage
-
-#networks:
-#  fastmessagenet:
-#    driver: bridge
-#    ipam:
-#      config:
-#        - subnet: 69.69.0.0/16

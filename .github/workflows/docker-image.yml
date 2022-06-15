@@ -28,16 +28,6 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
     - name: Run tests with Maven
       run: mvn package
-    - name: Docker meta
-      id: meta
-      uses: crazy-max/ghaction-docker-meta@v2
-      with:
-        images: heybitbro/fast-message
-        tags: |
-          type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
-          type=ref,event=tag
-        flavor: |
-          latest=false
     - name: Login to DockerHub
       if: GitHub.event_name != 'pull_request'
       uses: docker/login-action@v2.0.0
@@ -48,10 +38,3 @@ jobs:
       run: |
         docker-compose build
         docker push heybitbro/fast-message
-#    - name: Build and push
-#      uses: docker/build-push-action@v3.0.0
-#      with:
-#        context: .
-#        push: ${{ GitHub.event_name != 'pull_request' }}
-#        tags: ${{ steps.meta.outputs.tags }}
-#        labels: ${{ steps.meta.outputs.labels }}
