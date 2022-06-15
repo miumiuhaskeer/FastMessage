@@ -47,12 +47,9 @@ jobs:
     - name: Docker compose build
       if: GitHub.event_name != 'pull_request'
       run: docker-compose build --no-cache
-    - name: Docker compose tag
-      if: GitHub.event_name != 'pull_request'
-      run: docker-compose tag heybitbro/fast-message
     - name: Docker compose push
       if: GitHub.event_name != 'pull_request'
-      run: docker-compose push heybitbro/fast-message
+      run: docker-compose push
 #    - name: Build and push
 #      uses: docker/build-push-action@v3.0.0
 #      with:
