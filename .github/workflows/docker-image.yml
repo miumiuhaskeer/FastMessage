@@ -44,14 +44,14 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Docker compose
+    - name: Docker compose build and push
       run: |
-        docker-compose build -t heybitbro/fast-message .
+        docker-compose build
         docker push heybitbro/fast-message
-    - name: Build and push
-      uses: docker/build-push-action@v3.0.0
-      with:
-        context: .
-        push: ${{ GitHub.event_name != 'pull_request' }}
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+#    - name: Build and push
+#      uses: docker/build-push-action@v3.0.0
+#      with:
+#        context: .
+#        push: ${{ GitHub.event_name != 'pull_request' }}
+#        tags: ${{ steps.meta.outputs.tags }}
+#        labels: ${{ steps.meta.outputs.labels }}
