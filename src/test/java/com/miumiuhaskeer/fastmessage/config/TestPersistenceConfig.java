@@ -3,7 +3,6 @@ package com.miumiuhaskeer.fastmessage.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
 
 @TestConfiguration
 @RequiredArgsConstructor
-@TestPropertySource(locations="classpath:application.properties")
+@TestPropertySource(locations="classpath:application.yml")
 public class TestPersistenceConfig {
 
     private final ResourcePatternResolver resourcePatternResolver;

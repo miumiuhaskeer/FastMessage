@@ -1,8 +1,8 @@
 package com.miumiuhaskeer.fastmessage.service;
 
-import com.miumiuhaskeer.fastmessage.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.model.UserDetailsImpl;
 import com.miumiuhaskeer.fastmessage.model.entity.User;
+import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

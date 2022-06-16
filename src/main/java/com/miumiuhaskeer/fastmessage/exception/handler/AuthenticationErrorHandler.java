@@ -1,14 +1,13 @@
 package com.miumiuhaskeer.fastmessage.exception.handler;
 
 import com.miumiuhaskeer.fastmessage.JsonConverter;
-import com.miumiuhaskeer.fastmessage.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.model.response.ResponseEntityBuilder;
+import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

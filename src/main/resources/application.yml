@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fastmessage?useUnicode=true&characterEncoding=UTF-8
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        enable_lazy_load_no_trans: true
+
+    hibernate:
+      ddl-auto: none
+
+  liquibase:
+    enabled: false
+#    change-log: classpath:liquibase/changelog.yml
+#    url: jdbc:postgresql://fast-message-db:5432/fastmessage?useUnicode=true&characterEncoding=UTF-8
+#    driver-class-name: org.postgresql.Driver
+#    user: postgres
+#    password: postgres
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+
+fastmesssage:
+  jwt:
+    token:
+      expiration-seconds: 18000
+      secret: FastMessageSecret
+  refresh:
+    token:
+      expiration-seconds: 31536000

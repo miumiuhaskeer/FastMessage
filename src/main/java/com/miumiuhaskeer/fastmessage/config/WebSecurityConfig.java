@@ -5,7 +5,10 @@ import com.miumiuhaskeer.fastmessage.config.filter.JWTokenFilter;
 import com.miumiuhaskeer.fastmessage.exception.handler.AuthenticationErrorHandler;
 import com.miumiuhaskeer.fastmessage.handler.UserAuthenticationFailureHandler;
 import com.miumiuhaskeer.fastmessage.handler.UserAuthenticationSuccessHandler;
+import com.miumiuhaskeer.fastmessage.properties.config.JwtTokenConfig;
+import com.miumiuhaskeer.fastmessage.properties.config.RefreshTokenConfig;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +29,10 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableConfigurationProperties({
+        JwtTokenConfig.class,
+        RefreshTokenConfig.class
+})
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,

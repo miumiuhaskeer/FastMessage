@@ -1,8 +1,8 @@
 package com.miumiuhaskeer.fastmessage.util;
 
+import com.miumiuhaskeer.fastmessage.properties.config.JwtTokenConfig;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,12 +16,7 @@ public class JWTokenUtil {
 
     public static final String BEARER_PREFIX = "Bearer ";
 
-    @Value("${fastmesssage.jwt.token.secret}")
-    private String secret;
-
-    @Value("${fastmesssage.jwt.token.expiration.seconds}")
-    private long jwtTokenExpirationSeconds;
-
+    private final JwtTokenConfig jwtTokenConfig;
     private final UserDetailsService userDetailsService;
 
     /**
@@ -49,8 +44,8 @@ public class JWTokenUtil {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(current)
-                .setExpiration(new Date(current.getTime() + jwtTokenExpirationSeconds * 1000))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .setExpiration(new Date(current.getTime() + jwtTokenConfig.getExpirationSeconds() * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwtTokenConfig.getSecret())
                 .compact();
     }
 
@@ -121,6 +116,6 @@ public class JWTokenUtil {
      * @throws IllegalArgumentException if the token string is null or empty or only whitespace
      */
     private Jws<Claims> getClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+        return Jwts.parser().setSigningKey(jwtTokenConfig.getSecret()).parseClaimsJws(token);
     }
 }

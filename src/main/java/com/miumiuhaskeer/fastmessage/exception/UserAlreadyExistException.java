@@ -1,6 +1,6 @@
 package com.miumiuhaskeer.fastmessage.exception;
 
-import com.miumiuhaskeer.fastmessage.bundle.ErrorBundle;
+import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 
 public class UserAlreadyExistException extends RuntimeException {
 

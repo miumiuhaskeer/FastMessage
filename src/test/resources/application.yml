@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        enable_lazy_load_no_trans: true
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+
+    hibernate:
+      ddl-auto: none
+
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+
+fastmesssage:
+  jwt:
+    token:
+      expiration-seconds: 18000
+      secret: FastMessageSecret
+  refresh:
+    token:
+      expiration-seconds: 31536000

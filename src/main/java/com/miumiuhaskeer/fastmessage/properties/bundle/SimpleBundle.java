@@ -1,4 +1,4 @@
-package com.miumiuhaskeer.fastmessage.bundle;
+package com.miumiuhaskeer.fastmessage.properties.bundle;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

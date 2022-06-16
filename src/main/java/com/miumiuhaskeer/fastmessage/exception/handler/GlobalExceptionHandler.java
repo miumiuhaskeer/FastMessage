@@ -1,10 +1,10 @@
 package com.miumiuhaskeer.fastmessage.exception.handler;
 
-import com.miumiuhaskeer.fastmessage.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.exception.RefreshTokenExpiredException;
 import com.miumiuhaskeer.fastmessage.exception.RegistrationFailedException;
 import com.miumiuhaskeer.fastmessage.exception.UserAlreadyExistException;
 import com.miumiuhaskeer.fastmessage.model.response.ResponseEntityBuilder;
+import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;

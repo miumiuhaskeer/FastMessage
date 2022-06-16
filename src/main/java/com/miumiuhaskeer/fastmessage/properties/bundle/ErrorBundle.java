@@ -1,4 +1,4 @@
-package com.miumiuhaskeer.fastmessage.bundle;
+package com.miumiuhaskeer.fastmessage.properties.bundle;
 
 public class ErrorBundle {
 

@@ -1,7 +1,7 @@
 package com.miumiuhaskeer.fastmessage.config.filter;
 
-import com.miumiuhaskeer.fastmessage.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.exception.AuthenticationFailedException;
+import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

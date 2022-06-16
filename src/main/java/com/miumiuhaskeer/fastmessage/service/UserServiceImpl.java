@@ -1,12 +1,12 @@
 package com.miumiuhaskeer.fastmessage.service;
 
-import com.miumiuhaskeer.fastmessage.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.exception.RegistrationFailedException;
 import com.miumiuhaskeer.fastmessage.exception.UserAlreadyExistException;
 import com.miumiuhaskeer.fastmessage.model.UserDetailsImpl;
 import com.miumiuhaskeer.fastmessage.model.entity.ERole;
 import com.miumiuhaskeer.fastmessage.model.entity.Role;
 import com.miumiuhaskeer.fastmessage.model.entity.User;
+import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
