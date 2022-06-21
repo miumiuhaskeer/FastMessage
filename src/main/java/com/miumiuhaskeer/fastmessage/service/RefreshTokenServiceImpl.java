@@ -4,7 +4,7 @@ import com.miumiuhaskeer.fastmessage.exception.RefreshTokenExpiredException;
 import com.miumiuhaskeer.fastmessage.model.entity.RefreshToken;
 import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.properties.config.RefreshTokenConfig;
-import com.miumiuhaskeer.fastmessage.repository.RefreshTokenRepository;
+import com.miumiuhaskeer.fastmessage.repository.postgresql.RefreshTokenRepository;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

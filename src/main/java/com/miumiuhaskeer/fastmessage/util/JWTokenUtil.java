@@ -87,6 +87,16 @@ public class JWTokenUtil {
         return false;
     }
 
+    /**
+     * Generates header by token. Header name is "Authorization"
+     *
+     * @param token raw token for user
+     * @return bearer token
+     */
+    public String generateHeader(String token) {
+        return BEARER_PREFIX + token;
+    }
+
     public boolean headerIsToken(String header) {
         return header != null && header.startsWith(BEARER_PREFIX);
     }

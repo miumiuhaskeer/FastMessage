@@ -1,4 +1,4 @@
-package com.miumiuhaskeer.fastmessage.repository;
+package com.miumiuhaskeer.fastmessage.repository.postgresql;
 
 import com.miumiuhaskeer.fastmessage.model.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;

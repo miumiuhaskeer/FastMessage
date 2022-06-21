@@ -1,5 +1,6 @@
 package com.miumiuhaskeer.fastmessage.exception.handler;
 
+import com.miumiuhaskeer.fastmessage.exception.ChatNotExistException;
 import com.miumiuhaskeer.fastmessage.exception.RefreshTokenExpiredException;
 import com.miumiuhaskeer.fastmessage.exception.RegistrationFailedException;
 import com.miumiuhaskeer.fastmessage.exception.UserAlreadyExistException;
@@ -58,9 +59,11 @@ public class GlobalExceptionHandler {
             RefreshTokenExpiredException.class,
             RegistrationFailedException.class,
             AuthenticationException.class,
-            UsernameNotFoundException.class
+            UsernameNotFoundException.class,
+            IllegalArgumentException.class,
+            ChatNotExistException.class
     })
-    public ResponseEntity<ResponseEntityBuilder.SimpleResponse> handleUserAlreadyExistException(Exception e) {
+    public ResponseEntity<ResponseEntityBuilder.SimpleResponse> handleBadRequestException(Exception e) {
         e.printStackTrace();
 
         return new ResponseEntityBuilder()

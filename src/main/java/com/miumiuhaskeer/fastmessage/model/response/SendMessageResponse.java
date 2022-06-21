@@ -1,0 +1,14 @@
+package com.miumiuhaskeer.fastmessage.model.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SendMessageResponse {
+    private String messageId;
+    private long fromId;
+    private String chatId;
+}

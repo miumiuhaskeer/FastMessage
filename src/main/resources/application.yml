@@ -5,6 +5,15 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 
+  data:
+    mongodb:
+      authentication-database: admin
+      database: fastmessage
+      port: 27017
+      host: localhost
+      username: mongodb
+      password: mongodb
+
   jpa:
     properties:
       hibernate:

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -29,6 +30,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableMongoRepositories(basePackages = "com.miumiuhaskeer.fastmessage.repository.mongodb")
 @EnableConfigurationProperties({
         JwtTokenConfig.class,
         RefreshTokenConfig.class
@@ -54,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authentication/**", "/sign-up/**", "/test/**", "/health", "/FastMessage/health")
+                .antMatchers("/authentication/**", "/sign-up/**", "/test/**", "/health")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

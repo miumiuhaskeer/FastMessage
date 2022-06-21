@@ -2,7 +2,7 @@ package com.miumiuhaskeer.fastmessage.service;
 
 import com.miumiuhaskeer.fastmessage.model.entity.ERole;
 import com.miumiuhaskeer.fastmessage.model.entity.Role;
-import com.miumiuhaskeer.fastmessage.repository.RoleRepository;
+import com.miumiuhaskeer.fastmessage.repository.postgresql.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
