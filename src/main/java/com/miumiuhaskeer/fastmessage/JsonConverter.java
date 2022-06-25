@@ -2,12 +2,21 @@ package com.miumiuhaskeer.fastmessage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JsonConverter {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+
+    /**
+     * Enable jackson-datatype-jsr310 module for mapping LocalDateTime class
+     */
+    public JsonConverter() {
+        objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     /**
      * Safe convert object to json

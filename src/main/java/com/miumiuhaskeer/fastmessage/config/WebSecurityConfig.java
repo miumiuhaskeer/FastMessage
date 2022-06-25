@@ -67,14 +67,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-//        http.formLogin()
-//                .successHandler(userAuthenticationSuccessHandler())
-//                .failureHandler(userAuthenticationFailureHandler())
-//                .loginPage("/sign-in")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .permitAll();
-
         http.cors();
 
         // not required for api
@@ -94,6 +86,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthenticationErrorHandler(jsonConverter);
     }
 
+    // TODO remove handlers userAuthenticationSuccessHandler and userAuthenticationFailureHandler
     @Bean
     public AuthenticationSuccessHandler userAuthenticationSuccessHandler(){
         return new UserAuthenticationSuccessHandler(jsonConverter);

@@ -27,7 +27,7 @@ public class GetAllChatsUpdatesResponse {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    private static final class Chat {
+    public static final class Chat {
 
         private String chatId;
         private long newMessagesCount;

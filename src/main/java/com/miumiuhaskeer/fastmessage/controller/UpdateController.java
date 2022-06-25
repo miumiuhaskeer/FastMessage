@@ -30,6 +30,7 @@ public class UpdateController {
         GetChatUpdatesResponse response = new GetChatUpdatesResponse();
 
         for (Message message: messages) {
+            // TODO instead of parameters use object addition
             response.addMessage(
                     message.getId(),
                     message.getFromId(),

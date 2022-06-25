@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+// TODO Change to correct builder with default object (ok, bad_request)
 public final class ResponseEntityBuilder {
 
     private HttpStatus status = HttpStatus.OK;

@@ -32,7 +32,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
      * @return new token
      * @throws EntityNotFoundException if refresh token for user not found
      * @throws RefreshTokenExpiredException if refresh token expired
-     * @throws UsernameNotFoundException – if the user could not be found or the user has no GrantedAuthority
+     * @throws UsernameNotFoundException if the user could not be found or the user has no GrantedAuthority
      */
     @Override
     public String refreshExpiredToken(Long userId, String refreshToken) {

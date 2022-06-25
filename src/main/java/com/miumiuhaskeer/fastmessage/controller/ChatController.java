@@ -65,7 +65,7 @@ public class ChatController {
     public ResponseEntity<ResponseEntityBuilder.SimpleResponse> markAsRead(@RequestBody @Valid MarkAsReadRequest request) {
         ExtendedUserDetails user = userService.getCurrentUser();
 
-        chatService.markAsRead(user.getId(), request.getChatId(), request.getMessageId());
+        chatService.markAsRead(user.getId(), request.getSecondUserId(), request.getMessageId());
 
         return new ResponseEntityBuilder().create();
     }

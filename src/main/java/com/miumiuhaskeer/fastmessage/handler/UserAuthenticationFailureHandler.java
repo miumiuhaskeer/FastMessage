@@ -18,6 +18,6 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
             HttpServletResponse response,
             AuthenticationException exception
     ) throws IOException, ServletException {
-
+        // TODO add authentication failure event
     }
 }

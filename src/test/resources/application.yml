@@ -1,9 +1,19 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_ON_EXIT=true
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
+#  sql:
+#    init:
+#      data-locations: classpath*:sql/data
+#      schema-locations: classpath*:sql/schema
+#      continue-on-error: true
+
+  mongodb:
+    embedded:
+      version: 4.0.12
 
   jpa:
     properties:
@@ -25,6 +35,12 @@ logging:
     org:
       hibernate:
         type: trace
+
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
 
 fastmesssage:
   jwt:

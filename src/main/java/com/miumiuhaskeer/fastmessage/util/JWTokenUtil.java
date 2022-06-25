@@ -24,7 +24,7 @@ public class JWTokenUtil {
      *
      * @param email user email (used as username)
      * @return new token
-     * @throws UsernameNotFoundException – if the user could not be found or the user has no GrantedAuthority
+     * @throws UsernameNotFoundException if the user could not be found or the user has no GrantedAuthority
      */
     public String generateToken(String email) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
@@ -71,7 +71,7 @@ public class JWTokenUtil {
      * it means that token is not valid
      *
      * @param token jwt string token
-     * @return true - token is valid
+     * @return true - token is valid or
      *         false - token is not valid
      * @see JWTokenUtil#getClaimsFromToken(String)
      */
@@ -106,7 +106,7 @@ public class JWTokenUtil {
      *
      * @param header string bearer token
      * @return token without bearer prefix
-     * @throws IndexOutOfBoundsException – if bearer prefix is not in header, check this by headerIsToken method
+     * @throws IndexOutOfBoundsException if bearer prefix is not in header, check this by headerIsToken method
      * @see JWTokenUtil#headerIsToken(String)
      */
     public String getTokenFromHeader(String header) {

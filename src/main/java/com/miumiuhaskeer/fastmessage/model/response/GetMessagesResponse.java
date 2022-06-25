@@ -1,18 +1,21 @@
 package com.miumiuhaskeer.fastmessage.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetMessagesResponse {
 
-    private final List<Message> messages = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 
-    public void addMessage(String messageId, long fromUser, String content, LocalDateTime creationDateTime) {
+    public void addMessage(Long messageId, long fromUser, String content, LocalDateTime creationDateTime) {
         messages.add(new Message(
                 messageId,
                 fromUser,
@@ -21,12 +24,14 @@ public class GetMessagesResponse {
         ));
     }
 
+    // TODO change to public
     @Data
-    @RequiredArgsConstructor
+    @AllArgsConstructor
+    @NoArgsConstructor
     private static final class Message {
-        private final String messageId;
-        private final Long fromUser;
-        private final String content;
-        private final LocalDateTime creationDateTime;
+        private Long messageId;
+        private Long fromUser;
+        private String content;
+        private LocalDateTime creationDateTime;
     }
 }

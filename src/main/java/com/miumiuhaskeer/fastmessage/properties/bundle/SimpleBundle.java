@@ -11,8 +11,8 @@ public final class SimpleBundle {
      * Gets a resource bundle using the specified base name
      *
      * @param baseName name or path to properties file without extension
-     * @throws NullPointerException – if baseName is null
-     * @throws MissingResourceException – if no resource bundle for the specified base name can be found
+     * @throws NullPointerException if baseName is null
+     * @throws MissingResourceException if no resource bundle for the specified base name can be found
      */
     SimpleBundle(String baseName) {
         bundle = ResourceBundle.getBundle(baseName);
@@ -23,9 +23,9 @@ public final class SimpleBundle {
      *
      * @param key string property key
      * @return string property
-     * @throws NullPointerException – if key is null
-     * @throws MissingResourceException – if no object for the given key can be found
-     * @throws ClassCastException – if the object found for the given key is not a string
+     * @throws NullPointerException if key is null
+     * @throws MissingResourceException if no object for the given key can be found
+     * @throws ClassCastException if the object found for the given key is not a string
      */
     public String get(String key) {
         return bundle.getString(key);
@@ -36,9 +36,7 @@ public final class SimpleBundle {
      *
      * @param text some plain text or property or is the key if surrounded by brackets (example: {key}}
      * @return string property or text parameter
-     * @throws NullPointerException – if key is null
-     * @throws MissingResourceException – if no object for the given key can be found
-     * @throws ClassCastException – if the object found for the given key is not a string
+     * @see SimpleBundle#get(String)
      */
     public String getFromText(String text) {
         if (text.startsWith("{") && text.endsWith("}")) {

@@ -6,8 +6,16 @@ import com.miumiuhaskeer.fastmessage.model.entity.Message;
 import java.util.List;
 
 public interface ChatService {
+
+    /** {@inheritDoc} */
     Message sendMessage(long fromId, long chatId, String content);
+
+    /** {@inheritDoc} */
     List<Message> getMessages(long firstUserId, long secondUserId, int limit, int offset);
-    void markAsRead(long userId, long chatId, String messageId);
+
+    /** {@inheritDoc} */
+    void markAsRead(long userId, long chatId, long messageId);
+
+    /** {@inheritDoc} */
     Chat createUserChat(long firstUserId, long secondUserId);
 }

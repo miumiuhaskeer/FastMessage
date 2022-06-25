@@ -1,30 +1,15 @@
 package com.miumiuhaskeer.fastmessage.controller;
 
-import com.miumiuhaskeer.fastmessage.JsonConverter;
-import com.miumiuhaskeer.fastmessage.config.TestPersistenceConfig;
+import com.miumiuhaskeer.fastmessage.AbstractTest;
 import com.miumiuhaskeer.fastmessage.model.request.RegistrationRequest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@Import(TestPersistenceConfig.class)
-public class RegistrationControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private JsonConverter jsonConverter;
+public class RegistrationControllerTest extends AbstractTest {
 
     @Test
     public void registrationSuccessfulTest() throws Exception {
@@ -46,7 +31,7 @@ public class RegistrationControllerTest {
 
     @Test
     public void passwordWithoutLettersTest() throws Exception {
-        String email = "user";
+        String email = "user@mail.ru";
         String password = "1234578";
 
         mockMvc.perform(getRegisterUserRequest(email, password))
@@ -55,18 +40,13 @@ public class RegistrationControllerTest {
 
     @Test
     public void shortPasswordTest() throws Exception {
-        String email = "user";
+        String email = "user@mail.ru";
         String password = "1";
 
         mockMvc.perform(getRegisterUserRequest(email, password))
                 .andExpect(status().isBadRequest());
     }
 
-    /**
-     * This test should start after creation user
-     *
-     * @throws Exception if some error occurred
-     */
     @Test
     public void userAlreadyExistTest() throws Exception {
         String email = "admin@mail.ru";
