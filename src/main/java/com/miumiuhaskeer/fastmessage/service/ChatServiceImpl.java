@@ -40,7 +40,6 @@ public class ChatServiceImpl implements ChatService {
         Chat chat = chatRepository.findFirstByTags(tags).orElseGet(() -> createUserChat(fromId, toId));
         Message message = new Message();
 
-        //message.setId(sequenceGeneratorService.next(Message.SEQUENCE_NAME));
         message.setFromId(fromId);
         message.setChatId(chat.getId());
         message.setContent(content);

@@ -80,6 +80,20 @@ public class GetMessagesTest extends AbstractMongoTest {
     }
 
     @Test
+    public void getMessageForOtherUserTest() throws Exception {
+        testUtils.sendMessageNTimes(admin, user1, 1);
+
+        GetMessagesRequest request = new GetMessagesRequest(admin.getId(), 1, 0);
+        MockHttpServletRequestBuilder builder = get("/chat/getMessages")
+                .header("Authorization", user1Header)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonConverter.toJsonSafe(request));
+
+        mockMvc.perform(builder)
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void unauthorizedTest() throws Exception {
         GetMessagesRequest request = new GetMessagesRequest(user1.getId(), 0, 0);
 
