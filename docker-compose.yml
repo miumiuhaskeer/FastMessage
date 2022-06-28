@@ -45,7 +45,7 @@ services:
     container_name: fast-message-mongo-db
     hostname: localhost
     ports:
-      - "27018:27017"
+      - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongodb
       - MONGO_INITDB_ROOT_PASSWORD=mongodb
