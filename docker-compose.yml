@@ -17,10 +17,18 @@ services:
       - "6968:8080"
     depends_on:
       - fast-message-db
+      - fast-message-mongo-db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fast-message-db:5432/fastmessage
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+
+      - SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE=admin
+      - SPRING_DATA_MONGODB_HOST=fast-message-mongo-db
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_USERNAME=mongodb
+      - SPRING_DATA_MONGODB_PASSWORD=mongodb
+      - SPRING_DATA_MONGODB_DATABASE=fastmessage
 
   fast-message-db:
     image: 'postgres:latest'
@@ -31,3 +39,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=fastmessage
+
+  fast-message-mongo-db:
+    image: 'mongo:latest'
+    container_name: fast-message-mongo-db
+    hostname: localhost
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+#      - MONGO_INITDB_DATABASE=fastmessage
