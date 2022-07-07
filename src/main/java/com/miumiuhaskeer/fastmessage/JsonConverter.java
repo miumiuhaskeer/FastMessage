@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsonConverter {
 
+    public static final String JSON_DEFAULT = "{}";
+
     private final ObjectMapper objectMapper;
 
     /**
@@ -22,7 +24,8 @@ public class JsonConverter {
      * Safe convert object to json
      *
      * @param object to convert
-     * @return object representation as json string or empty string if some error occurred
+     * @return object representation as json string or json default string if some error occurred
+     * @see JsonConverter#JSON_DEFAULT
      */
     public String toJsonSafe(Object object) {
         try {
@@ -30,7 +33,25 @@ public class JsonConverter {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
 
-            return "";
+            return JSON_DEFAULT;
+        }
+    }
+
+    /**
+     * Safe convert object to json
+     *
+     * @param object to convert
+     * @param defaultJson result string if some error occurred
+     * @return object representation as json string or empty string if some error occurred
+     * @see JsonConverter#JSON_DEFAULT
+     */
+    public String toJsonSafe(Object object, String defaultJson) {
+        try {
+            return toJson(object);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+
+            return defaultJson;
         }
     }
 

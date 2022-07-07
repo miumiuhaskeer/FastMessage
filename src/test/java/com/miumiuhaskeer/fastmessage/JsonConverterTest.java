@@ -22,7 +22,7 @@ public class JsonConverterTest {
 
     @Test
     public void toJsonSafeFailureTest() {
-        String answer = "";
+        String answer = JsonConverter.JSON_DEFAULT;
         String result = jsonConverter.toJsonSafe(new Sample());
 
         assertEquals(result, answer);
