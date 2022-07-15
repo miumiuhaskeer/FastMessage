@@ -3,6 +3,7 @@ version: '3'
 services:
   app:
     container_name: fast-message
+    hostname: fast-message
     image: 'heybitbro/fast-message'
     restart: always
     logging:
@@ -14,10 +15,15 @@ services:
       context: ./
       dockerfile: ./docker/fastmessage/Dockerfile
     ports:
-      - "6968:8080"
+      - "6968:6969"
+    networks:
+      fm-network:
+        aliases:
+          - fast-message
     depends_on:
       - fast-message-db
       - fast-message-mongo-db
+      - fast-message-kafka
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://fast-message-db:5432/fastmessage
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -33,20 +39,75 @@ services:
   fast-message-db:
     image: 'postgres:latest'
     container_name: fast-message-db
+    hostname: fast-message-db
     ports:
       - "5432:5432"
+    networks:
+      - fm-network
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=fastmessage
 
+  fast-message-liquibase:
+    image: 'liquibase/liquibase:latest'
+    container_name: fast-message-liquibase
+    depends_on:
+      - fast-message-db
+    links:
+      - fast-message-db
+    networks:
+      - fm-network
+    volumes:
+#      - ./src/main/resources/db:/liquibase/changelog/db
+      - ./src/main/resources/liquibase:/liquibase/changelog
+#    environment:
+#      - LIQUIBASE_DATABASE_DRIVER=org.postgresql.Driver
+#      - LIQUIBASE_DATABASE_URL=jdbc:postgresql://fast-message-db:5432/fastmessage
+#      - LIQUIBASE_DATABASE_USERNAME=postgres
+#      - LIQUIBASE_DATABASE_PASSWORD=postgres
+#    command: --defaults-file=./resouces/liquibase/changelog.yml update
+    command: --url="jdbc:postgresql://fast-message-db:5432/fastmessage" --username=postgres --password=postgres --changeLogFile="changelog.yml" update
+
   fast-message-mongo-db:
     image: 'mongo:latest'
     container_name: fast-message-mongo-db
-    hostname: localhost
+    hostname: fast-message-mongo-db
     ports:
       - "27017:27017"
+    networks:
+      - fm-network
     environment:
       - MONGO_INITDB_ROOT_USERNAME=mongodb
       - MONGO_INITDB_ROOT_PASSWORD=mongodb
-#      - MONGO_INITDB_DATABASE=fastmessage
+
+  fast-message-kafka:
+    image: 'confluentinc/cp-kafka:latest'
+    container_name: fast-message-kafka
+    ports:
+      - "9092:9092"
+    networks:
+      - fm-network
+    depends_on:
+      - fast-message-zookeeper
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=fast-message-zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://fast-message-kafka:9092
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CONFLUENT_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+  fast-message-zookeeper:
+    image: 'confluentinc/cp-zookeeper:latest'
+    container_name: fast-message-zookeeper
+    networks:
+      - fm-network
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+      - KAFKA_CONFLUENT_TOPIC_REPLICATION_FACTOR=1
+
+networks:
+  fm-network:
+    name: fm-network
+    driver: bridge

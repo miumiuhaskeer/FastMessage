@@ -6,13 +6,23 @@ import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoCo
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+@EnableKafka
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import({TestPersistenceConfig.class, EmbeddedMongoAutoConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
+@EmbeddedKafka(
+        partitions = 1,
+        brokerProperties = {
+                "listeners=PLAINTEXT://localhost:9092",
+                "port=9092"
+        }
+)
 public abstract class AbstractTest {
 
     @Autowired

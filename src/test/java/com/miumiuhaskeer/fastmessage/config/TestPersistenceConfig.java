@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @TestConfiguration
 @RequiredArgsConstructor
-@TestPropertySource(locations="classpath:application.yml")
+@TestPropertySource(locations = "classpath:application.yml")
 public class TestPersistenceConfig {
 
     private final ResourcePatternResolver resourcePatternResolver;

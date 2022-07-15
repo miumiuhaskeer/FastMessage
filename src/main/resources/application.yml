@@ -1,6 +1,12 @@
+server:
+  port: 6969
+  servlet:
+#    context-path: /fm/api/v1
+    context-path: /FastMessage
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fastmessage?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:postgresql://fast-message-db:5432/fastmessage?useUnicode=true&characterEncoding=UTF-8
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -10,7 +16,7 @@ spring:
       authentication-database: admin
       database: fastmessage
       port: 27017
-      host: localhost
+      host: fast-message-mongo-db
       username: mongodb
       password: mongodb
 
@@ -23,10 +29,19 @@ spring:
     hibernate:
       ddl-auto: none
 
+  kafka:
+    producer:
+      bootstrap-servers: fast-message-kafka:9092
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: true
+        max.block.ms: 1000
+
   liquibase:
     enabled: false
 #    change-log: classpath:liquibase/changelog.yml
-#    url: jdbc:postgresql://fast-message-db:5432/fastmessage?useUnicode=true&characterEncoding=UTF-8
+#    url: jdbc:postgresql://localhost:5432/fastmessage?useUnicode=true&characterEncoding=UTF-8
 #    driver-class-name: org.postgresql.Driver
 #    user: postgres
 #    password: postgres
@@ -42,6 +57,12 @@ fastmesssage:
     token:
       expiration-seconds: 18000
       secret: FastMessageSecret
+      fms-secret: FastMessageStatisticSecret
+      fms-expiration-seconds: 30
   refresh:
     token:
       expiration-seconds: 31536000
+  fms:
+    host: fast-message-statistic
+    port: 3174
+    base-url: /fms/api/v1

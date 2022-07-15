@@ -8,9 +8,12 @@ import com.miumiuhaskeer.fastmessage.model.UserDetailsImpl;
 import com.miumiuhaskeer.fastmessage.model.entity.ERole;
 import com.miumiuhaskeer.fastmessage.model.entity.Role;
 import com.miumiuhaskeer.fastmessage.model.entity.User;
+import com.miumiuhaskeer.fastmessage.model.kafka.UserInfoKafka;
 import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.repository.postgresql.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -29,6 +33,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final KafkaTemplate<Long, UserInfoKafka> userInfoKafkaTemplate;
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
@@ -61,6 +67,14 @@ public class UserServiceImpl implements UserService {
 
         user.setRoles(roles);
         userRepository.save(user);
+
+        // TODO change to normal method
+        UserInfoKafka userInfoKafka = new UserInfoKafka(user);
+        ListenableFuture<SendResult<Long, UserInfoKafka>> future
+                = userInfoKafkaTemplate.send("createUserInfo", user.getId(), userInfoKafka);
+
+        future.addCallback(System.out::println, System.err::println);
+        userInfoKafkaTemplate.flush();
     }
 
     // TODO change to ExtendedUserDetails
@@ -98,6 +112,22 @@ public class UserServiceImpl implements UserService {
 
         if (!(principal instanceof UserDetails)) {
             throw new NotAuthenticatedException();
+        }
+
+        return (ExtendedUserDetails) principal;
+    }
+
+    /**
+     * Get current user details
+     *
+     * @return ExtendedUserDetails user details with id or null if user not authenticated
+     */
+    @Override
+    public ExtendedUserDetails getCurrentUserSafe() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!(principal instanceof UserDetails)) {
+            return null;
         }
 
         return (ExtendedUserDetails) principal;

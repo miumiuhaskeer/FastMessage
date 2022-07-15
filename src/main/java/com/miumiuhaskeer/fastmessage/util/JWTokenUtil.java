@@ -1,7 +1,14 @@
 package com.miumiuhaskeer.fastmessage.util;
 
-import com.miumiuhaskeer.fastmessage.properties.config.JwtTokenConfig;
-import io.jsonwebtoken.*;
+import com.miumiuhaskeer.fastmessage.properties.config.JWTokenConfig;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +23,7 @@ public class JWTokenUtil {
 
     public static final String BEARER_PREFIX = "Bearer ";
 
-    private final JwtTokenConfig jwtTokenConfig;
+    private final JWTokenConfig jwTokenConfig;
     private final UserDetailsService userDetailsService;
 
     /**
@@ -33,6 +40,24 @@ public class JWTokenUtil {
     }
 
     /**
+     * Generate token for FMS service by email. Can call only when user request FMS server
+     *
+     * @param email user email (used as username, must be existing)
+     * @return new token
+     */
+    public String generateFMSToken(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+        Date current = new Date();
+
+        return Jwts.builder()
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(current)
+                .setExpiration(new Date(current.getTime() + jwTokenConfig.getFmsExpirationSeconds() * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwTokenConfig.getFmsSecret())
+                .compact();
+    }
+
+    /**
      * Generate token by email
      *
      * @param userDetails details about user
@@ -44,8 +69,8 @@ public class JWTokenUtil {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(current)
-                .setExpiration(new Date(current.getTime() + jwtTokenConfig.getExpirationSeconds() * 1000))
-                .signWith(SignatureAlgorithm.HS512, jwtTokenConfig.getSecret())
+                .setExpiration(new Date(current.getTime() + jwTokenConfig.getExpirationSeconds() * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwTokenConfig.getSecret())
                 .compact();
     }
 
@@ -126,6 +151,6 @@ public class JWTokenUtil {
      * @throws IllegalArgumentException if the token string is null or empty or only whitespace
      */
     private Jws<Claims> getClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(jwtTokenConfig.getSecret()).parseClaimsJws(token);
+        return Jwts.parser().setSigningKey(jwTokenConfig.getSecret()).parseClaimsJws(token);
     }
 }

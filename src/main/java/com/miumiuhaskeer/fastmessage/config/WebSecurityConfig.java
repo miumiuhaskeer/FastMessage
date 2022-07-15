@@ -5,10 +5,8 @@ import com.miumiuhaskeer.fastmessage.config.filter.JWTokenFilter;
 import com.miumiuhaskeer.fastmessage.exception.handler.AuthenticationErrorHandler;
 import com.miumiuhaskeer.fastmessage.handler.UserAuthenticationFailureHandler;
 import com.miumiuhaskeer.fastmessage.handler.UserAuthenticationSuccessHandler;
-import com.miumiuhaskeer.fastmessage.properties.config.JwtTokenConfig;
-import com.miumiuhaskeer.fastmessage.properties.config.RefreshTokenConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -31,10 +29,7 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @RequiredArgsConstructor
 @EnableMongoRepositories(basePackages = "com.miumiuhaskeer.fastmessage.repository.mongodb")
-@EnableConfigurationProperties({
-        JwtTokenConfig.class,
-        RefreshTokenConfig.class
-})
+@ConfigurationPropertiesScan("com.miumiuhaskeer.fastmessage.properties.config")
 @EnableGlobalMethodSecurity(
         securedEnabled = true,
         jsr250Enabled = true,
@@ -56,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/authentication/**", "/sign-up/**", "/test/**", "/health")
+                .antMatchers("/authentication/**", "/sign-up/**", "/health/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

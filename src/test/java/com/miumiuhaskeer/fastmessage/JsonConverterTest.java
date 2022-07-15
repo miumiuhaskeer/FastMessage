@@ -2,15 +2,17 @@ package com.miumiuhaskeer.fastmessage;
 
 import lombok.Data;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class JsonConverterTest {
+public class JsonConverterTest extends AbstractTest {
 
-    private final JsonConverter jsonConverter = new JsonConverter();
+    @Autowired
+    private JsonConverter jsonConverter;
 
     @Test
     public void toJsonSafeSuccessTest() {

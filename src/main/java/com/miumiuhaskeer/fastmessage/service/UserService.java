@@ -16,6 +16,9 @@ public interface UserService {
     ExtendedUserDetails getCurrentUser();
 
     /** {@inheritDoc} */
+    ExtendedUserDetails getCurrentUserSafe();
+
+    /** {@inheritDoc} */
     User getById(Long id);
 
     /** {@inheritDoc} */

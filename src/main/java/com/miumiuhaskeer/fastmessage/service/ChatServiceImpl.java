@@ -10,7 +10,10 @@ import com.miumiuhaskeer.fastmessage.repository.mongodb.ChatRepository;
 import com.miumiuhaskeer.fastmessage.repository.mongodb.MessageRepository;
 import com.miumiuhaskeer.fastmessage.repository.mongodb.UserChatRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
@@ -20,7 +23,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
-    private final SequenceGeneratorService sequenceGeneratorService;
+    private final KafkaTemplate<Long, Integer> integerKafkaTemplate;
+
     private final UserService userService;
     private final ChatRepository chatRepository;
     private final UserChatRepository userChatRepository;
@@ -44,7 +48,16 @@ public class ChatServiceImpl implements ChatService {
         message.setChatId(chat.getId());
         message.setContent(content);
 
-        return messageRepository.save(message);
+        message = messageRepository.save(message);
+
+        // TODO change to normal method
+        ListenableFuture<SendResult<Long, Integer>> future
+                = integerKafkaTemplate.send("updateUserInfoMessageCount", fromId, 1);
+
+        future.addCallback(System.out::println, System.err::println);
+        integerKafkaTemplate.flush();
+
+        return message;
     }
 
     /**
@@ -122,6 +135,13 @@ public class ChatServiceImpl implements ChatService {
         chat = chatRepository.insert(chat);
 
         createUserChatRelationship(firstUserId, chat.getId());
+
+        // TODO change to normal method
+        ListenableFuture<SendResult<Long, Integer>> future
+                = integerKafkaTemplate.send("updateUserInfoChatCount", firstUserId, 1);
+
+        future.addCallback(System.out::println, System.err::println);
+        integerKafkaTemplate.flush();
 
         return chat;
     }

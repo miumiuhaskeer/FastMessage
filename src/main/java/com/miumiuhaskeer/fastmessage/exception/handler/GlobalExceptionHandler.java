@@ -1,6 +1,7 @@
 package com.miumiuhaskeer.fastmessage.exception.handler;
 
 import com.miumiuhaskeer.fastmessage.exception.ChatNotExistException;
+import com.miumiuhaskeer.fastmessage.exception.FMSRequestException;
 import com.miumiuhaskeer.fastmessage.exception.RefreshTokenExpiredException;
 import com.miumiuhaskeer.fastmessage.exception.RegistrationFailedException;
 import com.miumiuhaskeer.fastmessage.exception.UserAlreadyExistException;
@@ -14,6 +15,8 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolation;
@@ -69,6 +72,34 @@ public class GlobalExceptionHandler {
         return new ResponseEntityBuilder()
                 .status(HttpStatus.BAD_REQUEST)
                 .message(e.getMessage())
+                .create();
+    }
+
+    // TODO add reading of error messages
+    @ExceptionHandler({
+            RestClientException.class,
+            FMSRequestException.class
+    })
+    public ResponseEntity<ResponseEntityBuilder.SimpleResponse> handleRestClientException(Exception e) {
+        e.printStackTrace();
+
+        HttpStatus status;
+        String message;
+
+        if (e instanceof HttpClientErrorException.Unauthorized) {
+            status = HttpStatus.UNAUTHORIZED;
+            message = ErrorBundle.get("error.notAuthenticatedException.message");
+        } else if (e instanceof HttpClientErrorException.BadRequest) {
+            status = HttpStatus.BAD_REQUEST;
+            message = ErrorBundle.get("error.fmsRequestException.304.message");
+        } else {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            message = ErrorBundle.get("error.fmsRequestException.500.message");
+        }
+
+        return new ResponseEntityBuilder()
+                .status(status)
+                .message(message)
                 .create();
     }
 }

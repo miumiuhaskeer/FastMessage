@@ -9,6 +9,7 @@ import com.miumiuhaskeer.fastmessage.util.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
@@ -140,7 +141,7 @@ public class MarkAsReadTest extends AbstractMongoTest {
         MockHttpServletRequestBuilder builder = post("/chat/markAsRead");
 
         if (containsAuthHeader) {
-            builder.header("Authorization", adminHeader);
+            builder.header(HttpHeaders.AUTHORIZATION, adminHeader);
         }
 
         return builder.contentType(MediaType.APPLICATION_JSON)

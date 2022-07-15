@@ -5,6 +5,7 @@ import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,8 +37,8 @@ public class JWTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         if (request.getHeader(HttpHeaders.AUTHORIZATION) != null) {
             doAuthentication(request);

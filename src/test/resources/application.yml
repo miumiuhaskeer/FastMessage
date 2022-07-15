@@ -27,6 +27,22 @@ spring:
     hibernate:
       ddl-auto: none
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: fast-message-statistic
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: com.miumiuhaskeer.fastmessage.model.kafka
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: true
+        max.block.ms: 1000
+
   liquibase:
     enabled: false
 
@@ -47,6 +63,15 @@ fastmesssage:
     token:
       expiration-seconds: 18000
       secret: FastMessageSecret
+      fms-secret: FastMessageStatisticSecret
+      fms-expiration-seconds: 30
   refresh:
     token:
       expiration-seconds: 31536000
+  kafka:
+    host: localhost
+    port: 9092
+  fms:
+    host: localhost
+    port: 3174
+    base-url: /fms/api/v1

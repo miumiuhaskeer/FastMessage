@@ -1,1 +1,0 @@
-SELECT * FROM fm_role

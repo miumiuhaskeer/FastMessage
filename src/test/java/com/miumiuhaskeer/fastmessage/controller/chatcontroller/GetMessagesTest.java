@@ -8,6 +8,7 @@ import com.miumiuhaskeer.fastmessage.util.TestUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -85,7 +86,7 @@ public class GetMessagesTest extends AbstractMongoTest {
 
         GetMessagesRequest request = new GetMessagesRequest(admin.getId(), 1, 0);
         MockHttpServletRequestBuilder builder = get("/chat/getMessages")
-                .header("Authorization", user1Header)
+                .header(HttpHeaders.AUTHORIZATION, user1Header)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonConverter.toJsonSafe(request));
 
@@ -128,7 +129,7 @@ public class GetMessagesTest extends AbstractMongoTest {
         MockHttpServletRequestBuilder builder = get("/chat/getMessages");
 
         if (containsAuthHeader) {
-            builder.header("Authorization", adminHeader);
+            builder.header(HttpHeaders.AUTHORIZATION, adminHeader);
         }
 
         return builder.contentType(MediaType.APPLICATION_JSON)

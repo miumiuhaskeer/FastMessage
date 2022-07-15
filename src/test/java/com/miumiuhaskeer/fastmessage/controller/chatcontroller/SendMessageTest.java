@@ -8,6 +8,7 @@ import com.miumiuhaskeer.fastmessage.repository.mongodb.MessageRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -102,7 +103,7 @@ public class SendMessageTest extends AbstractMongoTest {
         MockHttpServletRequestBuilder builder = post("/chat/sendMessage");
 
         if (containsAuthHeader) {
-            builder.header("Authorization", adminHeader);
+            builder.header(HttpHeaders.AUTHORIZATION, adminHeader);
         }
 
         return builder.contentType(MediaType.APPLICATION_JSON)
