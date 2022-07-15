@@ -102,4 +102,14 @@ public class GlobalExceptionHandler {
                 .message(message)
                 .create();
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseEntityBuilder.SimpleResponse> handleRuntimeException(RuntimeException e) {
+        e.printStackTrace();
+
+        return new ResponseEntityBuilder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .message(ErrorBundle.get("error.fmsRequestException.unexpected.message"))
+                .create();
+    }
 }
