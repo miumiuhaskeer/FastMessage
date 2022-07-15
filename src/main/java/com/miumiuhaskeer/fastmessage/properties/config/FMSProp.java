@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Data
 @ConstructorBinding
 @ConfigurationProperties(prefix = "fastmesssage.fms")
-public class FMSConfig {
+public class FMSProp {
 
     private static final String HTTP = "http://";
 

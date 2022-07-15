@@ -3,7 +3,7 @@ package com.miumiuhaskeer.fastmessage.service;
 import com.miumiuhaskeer.fastmessage.exception.RefreshTokenExpiredException;
 import com.miumiuhaskeer.fastmessage.model.entity.RefreshToken;
 import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
-import com.miumiuhaskeer.fastmessage.properties.config.RefreshTokenConfig;
+import com.miumiuhaskeer.fastmessage.properties.config.RefreshTokenProp;
 import com.miumiuhaskeer.fastmessage.repository.postgresql.RefreshTokenRepository;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RefreshTokenServiceImpl implements RefreshTokenService {
 
-    private final RefreshTokenConfig refreshTokenConfig;
+    private final RefreshTokenProp refreshTokenProp;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JWTokenUtil jwTokenUtil;
     private final UserService userService;
@@ -58,7 +58,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         RefreshToken token = new RefreshToken();
 
         token.setUser(userService.getById(userId));
-        token.setExpiryDateTime(LocalDateTime.now().plusSeconds(refreshTokenConfig.getExpirationSeconds()));
+        token.setExpiryDateTime(LocalDateTime.now().plusSeconds(refreshTokenProp.getExpirationSeconds()));
         token.setToken(UUID.randomUUID().toString());
 
         return refreshTokenRepository.save(token);

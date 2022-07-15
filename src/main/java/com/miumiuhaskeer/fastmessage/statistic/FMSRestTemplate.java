@@ -3,7 +3,7 @@ package com.miumiuhaskeer.fastmessage.statistic;
 import com.miumiuhaskeer.fastmessage.JsonConverter;
 import com.miumiuhaskeer.fastmessage.exception.FMSRequestException;
 import com.miumiuhaskeer.fastmessage.model.ExtendedUserDetails;
-import com.miumiuhaskeer.fastmessage.properties.config.FMSConfig;
+import com.miumiuhaskeer.fastmessage.properties.config.FMSProp;
 import com.miumiuhaskeer.fastmessage.service.UserService;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class FMSRestTemplate {
     private final JsonConverter jsonConverter;
     private final JWTokenUtil jwTokenUtil;
     private final UserService userService;
-    private final FMSConfig fmsConfig;
+    private final FMSProp fmsProp;
 
     /**
      * Send query to FastMessage Statistic service for getting result
@@ -37,7 +37,7 @@ public class FMSRestTemplate {
      */
     public <R> R getForEntity(FMSRequest<R> request, Object param) {
         HttpEntity<Object> entity = getHttpEntity(param);
-        String requestUrl = fmsConfig.getUrl() + request.getRequestPath();
+        String requestUrl = fmsProp.getUrl() + request.getRequestPath();
         ResponseEntity<R> response = restTemplate.postForEntity(requestUrl, entity, request.getReturnType());
 
         if (!response.getStatusCode().is2xxSuccessful()) {
@@ -59,7 +59,7 @@ public class FMSRestTemplate {
      */
     public <R> R getForObject(FMSRequest<R> request, Object param) {
         HttpEntity<Object> entity = getHttpEntity(param);
-        String requestUrl = fmsConfig.getUrl() + request.getRequestPath();
+        String requestUrl = fmsProp.getUrl() + request.getRequestPath();
         R response = restTemplate.postForObject(requestUrl, entity, request.getReturnType());
 
         if (response == null) {

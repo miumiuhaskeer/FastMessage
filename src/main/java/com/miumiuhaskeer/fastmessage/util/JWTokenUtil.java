@@ -1,6 +1,6 @@
 package com.miumiuhaskeer.fastmessage.util;
 
-import com.miumiuhaskeer.fastmessage.properties.config.JWTokenConfig;
+import com.miumiuhaskeer.fastmessage.properties.config.JWTokenProp;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -23,7 +23,7 @@ public class JWTokenUtil {
 
     public static final String BEARER_PREFIX = "Bearer ";
 
-    private final JWTokenConfig jwTokenConfig;
+    private final JWTokenProp jwTokenProp;
     private final UserDetailsService userDetailsService;
 
     /**
@@ -52,8 +52,8 @@ public class JWTokenUtil {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(current)
-                .setExpiration(new Date(current.getTime() + jwTokenConfig.getFmsExpirationSeconds() * 1000))
-                .signWith(SignatureAlgorithm.HS512, jwTokenConfig.getFmsSecret())
+                .setExpiration(new Date(current.getTime() + jwTokenProp.getFmsExpirationSeconds() * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwTokenProp.getFmsSecret())
                 .compact();
     }
 
@@ -69,8 +69,8 @@ public class JWTokenUtil {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(current)
-                .setExpiration(new Date(current.getTime() + jwTokenConfig.getExpirationSeconds() * 1000))
-                .signWith(SignatureAlgorithm.HS512, jwTokenConfig.getSecret())
+                .setExpiration(new Date(current.getTime() + jwTokenProp.getExpirationSeconds() * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwTokenProp.getSecret())
                 .compact();
     }
 
@@ -151,6 +151,6 @@ public class JWTokenUtil {
      * @throws IllegalArgumentException if the token string is null or empty or only whitespace
      */
     private Jws<Claims> getClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(jwTokenConfig.getSecret()).parseClaimsJws(token);
+        return Jwts.parser().setSigningKey(jwTokenProp.getSecret()).parseClaimsJws(token);
     }
 }

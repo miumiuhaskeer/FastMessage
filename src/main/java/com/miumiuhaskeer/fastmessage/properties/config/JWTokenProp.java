@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Data
 @ConstructorBinding
 @ConfigurationProperties(prefix = "fastmesssage.jwt.token")
-public class JWTokenConfig {
+public class JWTokenProp {
     private final String secret;
     private final String fmsSecret;
     private final long expirationSeconds;
