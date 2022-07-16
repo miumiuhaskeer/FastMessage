@@ -1,41 +1,37 @@
 package com.miumiuhaskeer.fastmessage.controller.updatecontroller;
 
 import com.miumiuhaskeer.fastmessage.AbstractMongoTest;
+import com.miumiuhaskeer.fastmessage.MockMvcQuery;
 import com.miumiuhaskeer.fastmessage.model.entity.Message;
 import com.miumiuhaskeer.fastmessage.model.response.GetAllChatsUpdatesResponse;
 import com.miumiuhaskeer.fastmessage.service.ChatService;
-import com.miumiuhaskeer.fastmessage.util.TestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class GetAllChatUpdatesTest extends AbstractMongoTest {
 
     @Autowired
     private ChatService chatService;
 
-    @Autowired
-    private TestUtils testUtils;
+    private MockMvcQuery query;
 
     @BeforeEach
-    public void clearMongoDB() {
-        testUtils.clearAllFromMongo();
+    public void setMockMvcQuery() {
+        query = MockMvcQuery.createGetQuery(
+                "/getAllChatUpdates",
+                adminHeader
+        );
     }
 
     @Test
     public void emptyUpdatesTest() throws Exception {
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
 
         assertEquals(0, response.getChats().size());
     }
@@ -44,7 +40,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
     public void updatesTest() throws Exception {
         testUtils.sendMessageNTimes(admin, user1, 3);
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
         List<GetAllChatsUpdatesResponse.Chat> chats = response.getChats();
 
         assertEquals(1, chats.size());
@@ -56,7 +52,9 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
         testUtils.sendMessageNTimes(admin, user1, 2);
         testUtils.sendMessageNTimes(admin, user2, 3);
 
-        assertEquals(2, performOkRequest().getChats().size());
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
+
+        assertEquals(2, response.getChats().size());
     }
 
     @Test
@@ -64,7 +62,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
         testUtils.sendMessageNTimes(admin, user1, 2);
         testUtils.sendMessageNTimes(admin, user2, 3);
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
         List<GetAllChatsUpdatesResponse.Chat> chats = response.getChats();
         GetAllChatsUpdatesResponse.Chat chat1 = chats.get(0);
         GetAllChatsUpdatesResponse.Chat chat2 = chats.get(1);
@@ -83,7 +81,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
     public void messageContainingTest() throws Exception {
         testUtils.sendMessageNTimes(admin, user1, 1);
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
         GetAllChatsUpdatesResponse.Chat chat = response.getChats().get(0);
 
         assertEquals("Test message 1", chat.getLastMessage());
@@ -93,7 +91,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
     public void messageContainingMaxSymbolsTest() throws Exception {
         chatService.sendMessage(admin.getId(), user2.getId(), StringUtils.repeat('a', 130));
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
         GetAllChatsUpdatesResponse.Chat chat = response.getChats().get(0);
 
         assertEquals(StringUtils.repeat('a', 128), chat.getLastMessage());
@@ -105,7 +103,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
 
         chatService.markAsRead(admin.getId(), user1.getId(), message.getId());
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
 
         assertEquals(0, response.getChats().size());
     }
@@ -117,7 +115,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
 
         chatService.markAsRead(admin.getId(), user1.getId(), message.getId());
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
 
         assertEquals(0, response.getChats().size());
     }
@@ -130,7 +128,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
 
         chatService.markAsRead(admin.getId(), user1.getId(), message.getId());
 
-        GetAllChatsUpdatesResponse response = performOkRequest();
+        GetAllChatsUpdatesResponse response = performOkRequest(query, null, GetAllChatsUpdatesResponse.class);
         List<GetAllChatsUpdatesResponse.Chat> chat = response.getChats();
 
         assertEquals(1, chat.size());
@@ -140,30 +138,7 @@ public class GetAllChatUpdatesTest extends AbstractMongoTest {
 
     @Test
     public void unauthorizedTest() throws Exception {
-        mockMvc.perform(getAllChatRequest(false))
-                .andExpect(status().isUnauthorized());
-    }
-
-    private GetAllChatsUpdatesResponse performOkRequest() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(getAllChatRequest())
-                .andExpect(status().isOk())
-                .andReturn();
-        String content = mvcResult.getResponse().getContentAsString();
-
-        return jsonConverter.fromJson(content, GetAllChatsUpdatesResponse.class);
-    }
-
-    private MockHttpServletRequestBuilder getAllChatRequest() {
-        return getAllChatRequest(true);
-    }
-
-    private MockHttpServletRequestBuilder getAllChatRequest(boolean containsAuthHeader) {
-        MockHttpServletRequestBuilder builder = get("/getAllChatUpdates");
-
-        if (containsAuthHeader) {
-            builder.header(HttpHeaders.AUTHORIZATION, adminHeader);
-        }
-
-        return builder.contentType(MediaType.APPLICATION_JSON);
+        query.setAuthToken(null);
+        performUnauthorizedRequest(query, null);
     }
 }

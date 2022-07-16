@@ -3,13 +3,18 @@ package com.miumiuhaskeer.fastmessage;
 import com.miumiuhaskeer.fastmessage.model.ExtendedUserDetails;
 import com.miumiuhaskeer.fastmessage.service.UserService;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
+import com.miumiuhaskeer.fastmessage.util.TestUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @AutoConfigureDataMongo
 public abstract class AbstractMongoTest extends AbstractTest {
+
+    @Autowired
+    protected TestUtils testUtils;
 
     protected static ExtendedUserDetails admin;
     protected static String adminHeader;
@@ -37,5 +42,10 @@ public abstract class AbstractMongoTest extends AbstractTest {
         user2Header = jwTokenUtil.generateHeader(jwTokenUtil.generateToken(user2));
 
         SecurityContextHolder.clearContext();
+    }
+
+    @BeforeEach
+    public void clearMongoDB() {
+        testUtils.clearAllFromMongo();
     }
 }

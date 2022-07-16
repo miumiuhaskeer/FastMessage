@@ -15,7 +15,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AuthenticationErrorHandler implements AuthenticationEntryPoint {
 
-    private final JsonConverter converter;
+    private final JsonConverter jsonConverter;
 
     @Override
     public void commence(
@@ -31,6 +31,6 @@ public class AuthenticationErrorHandler implements AuthenticationEntryPoint {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.getWriter().append(converter.toJson(simpleResponse));
+        response.getWriter().append(jsonConverter.toJson(simpleResponse));
     }
 }
