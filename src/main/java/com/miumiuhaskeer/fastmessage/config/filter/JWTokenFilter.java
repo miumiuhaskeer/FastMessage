@@ -1,6 +1,5 @@
 package com.miumiuhaskeer.fastmessage.config.filter;
 
-import com.miumiuhaskeer.fastmessage.exception.AuthenticationFailedException;
 import com.miumiuhaskeer.fastmessage.properties.bundle.ErrorBundle;
 import com.miumiuhaskeer.fastmessage.util.JWTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +30,6 @@ public class JWTokenFilter extends OncePerRequestFilter {
      * Authenticate user by request
      *
      * @param request user request
-     * @throws org.springframework.security.core.userdetails.UsernameNotFoundException if user not found
-     * @throws AuthenticationFailedException if some error occurred
      */
     @Override
     protected void doFilterInternal(
