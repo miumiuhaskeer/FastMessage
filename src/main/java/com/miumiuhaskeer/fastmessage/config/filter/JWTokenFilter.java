@@ -47,7 +47,7 @@ public class JWTokenFilter extends OncePerRequestFilter {
     /**
      * Authenticate user by HttpServletRequest
      *
-     * @param request for auth
+     * @param request for authenticate
      */
     private void doAuthentication(HttpServletRequest request) {
         try {
