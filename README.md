@@ -15,6 +15,9 @@ Note: project under development!
 - [ ] Reply for message
 - [ ] Move registration/authentication flow to new microservice
 
+## Services architecture
+![Architecture](https://github.com/miumiuhaskeer/FastMessage/blob/master/.github/images/Diagram.jpg)
+
 ## Technologies used
 - Spring Boot
 - Liquibase
