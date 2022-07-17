@@ -29,7 +29,7 @@ Note: project under development!
 ## Health checking
 You can check service availability by sending request
 ```
-http://fast-message-statistic:3173/fm/api/v1/health
+http://fast-message:6968/fm/api/v1/health
 ```
 The response is
 ```
@@ -37,7 +37,7 @@ OK
 ```
 To check [FastMessage-statistic](https://github.com/miumiuhaskeer/FastMessage-statistic) service availability send this request
 ```
-http://fast-message-statistic:3173/fm/api/v1/health/fms
+http://fast-message:6968/fm/api/v1/health/fms
 ```
 The response is
 ```
