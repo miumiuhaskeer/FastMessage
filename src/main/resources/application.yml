@@ -1,8 +1,7 @@
 server:
   port: 6969
   servlet:
-#    context-path: /fm/api/v1
-    context-path: /FastMessage
+    context-path: /fm/api/v1
 
 spring:
   datasource:
